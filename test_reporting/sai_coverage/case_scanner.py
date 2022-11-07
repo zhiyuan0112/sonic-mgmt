@@ -7,6 +7,7 @@ import argparse
 import ast
 import json
 import os
+from datetime import date
 
 from multipledispatch import dispatch
 
@@ -241,6 +242,7 @@ class SAICoverageScanner(object):
             attr_value=attr_val,
             runnable=runnable,
             sai_folder=sai_folder,
+            upload_time=str(date.today()),
         )
         self.final_coverage.append(test_invocation.__dict__)
 
