@@ -81,11 +81,12 @@ def parse_log(log_path, result_path, test_platform):
       test_platform: platform of running cases
     """
     results = []
+    ignore_flags = ['** END TEST CASE', 'WARNING', 'retval', 'case failed']
     with open(log_path, 'r') as f:
         file_cnt = len(open(log_path, 'r').readlines())
 
         for line, _ in zip(f, tqdm(range(file_cnt), desc='Scanning')):
-            if '** END TEST CASE' in line or 'retval' in line or 'case failed' in line:
+            if any(word if word in line else False for word in ignore_flags):
                 continue
 
             pattern = r' - '  # split each line by ` - `
