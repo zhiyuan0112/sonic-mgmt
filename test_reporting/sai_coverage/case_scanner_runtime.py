@@ -3,6 +3,7 @@ import json
 import os
 import re
 import uuid
+from tqdm import tqdm
 
 """
 This script parses the published artifacts, and outputs a json format result.
@@ -82,12 +83,9 @@ def parse_log(log_path, result_path, test_platform):
     results = []
     with open(log_path, 'r') as f:
         file_cnt = len(open(log_path, 'r').readlines())
-        cur_cnt = 0
 
-        for line in f:
-            cur_cnt += 1
-            print('Scanning:', str(cur_cnt)+'/'+str(file_cnt))
-            if '** END TEST CASE' in line or 'retval' in line:
+        for line, _ in zip(f, tqdm(range(file_cnt), desc='Scanning')):
+            if '** END TEST CASE' in line or 'retval' in line or 'case failed' in line:
                 continue
 
             pattern = r' - '  # split each line by ` - `
@@ -106,8 +104,6 @@ def parse_log(log_path, result_path, test_platform):
                     continue
                 if '\'[' in v:  # if `v` is a list
                     v_list = v.split(', ')
-                    v = []
-                    print(v_list)
                     for v_i in v_list:
                         v_i = re.findall(r'\.(.*?)\:', v_i)
                         data = construct_data(obj, obj_args, k, v_i[0], test_platform)
