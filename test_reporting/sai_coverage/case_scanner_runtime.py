@@ -35,7 +35,7 @@ Examples:
         "test_set": "ptf",
         "test_platform": "x86_64-cel_seastone-r0",
         "sai_obj_attr_key": "init_switch",
-        "sai_obj_attr_val": "True",
+        "sai_obj_attr_value": "True",
         "runnable": true,
         "sai_folder": "/tmp/sai_qualify/SAI/ptf",
         "upload_time": "2023-02-24"
@@ -162,7 +162,7 @@ def construct_data(obj, obj_args, k, v, test_platform):
     data['test_platform'] = test_platform
 
     data['sai_obj_attr_key'] = k
-    data['sai_obj_attr_val'] = v
+    data['sai_obj_attr_value'] = v
 
     data['runnable'] = True
     data['sai_folder'] = '/'.join(sai_path.split('/')[:-1])
